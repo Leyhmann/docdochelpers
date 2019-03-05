@@ -1,0 +1,41 @@
+{
+  "name": "leyhmann/docdoc",
+  "description": "Simple helper for use docdoc.ru partner API",
+  "keywords": [
+    "docdoc"
+  ],
+  "homepage": "https://github.com/leyhmann/docdoc",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Leyhmann Andrey",
+      "email": "leyhmann.a.a@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.2",
+    "ext-json": "*",
+    "kriswallsmith/buzz": "^0.17.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.2|^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Leyhmann\\DocDoc\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Leyhmann\\DocDoc\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "phpunit tests"
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true
+  }
+}
