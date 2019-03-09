@@ -2,7 +2,9 @@
 
 namespace Leyhmann\DocDoc\Services;
 
+use http\Exception\InvalidArgumentException;
 use Leyhmann\DocDoc\Exceptions\CityNumberIncorrect;
+use Leyhmann\DocDoc\Exceptions\InvalidArgument;
 use Leyhmann\DocDoc\Exceptions\MaximumCount;
 use Leyhmann\DocDoc\Exceptions\ResponseError;
 use Leyhmann\DocDoc\Helpers\Builders\DoctorsQueryBuilder;
@@ -135,5 +137,28 @@ class Doctors extends AbstractCategory
     public function getServices()
     {
         return $this->getOnly('service/list', 'ServiceList');
+    }
+
+    /**
+     * Get a list of slots for doctors and diagnostics
+     *
+     * @param int $id
+     * @param int $clinicId
+     * @param \DateTime $startDate
+     * @param \DateTime $finishDate
+     * @param string $type
+     * @return array
+     * @throws InvalidArgument
+     * @throws ResponseError
+     * @throws \Leyhmann\DocDoc\Exceptions\MethodIsNotSet
+     * @throws \Leyhmann\DocDoc\Exceptions\Unauthorized
+     */
+    public function getSlots(int $id, int $clinicId, \DateTime $startDate, \DateTime $finishDate, $type = 'doctor'): array
+    {
+        if ($type !== 'doctor' && $type !== 'diagnostic') {
+            throw new InvalidArgument('For the argument "type" valid parameters: doctor and diagnosis');
+        }
+        return $this->getOnly("slot/list/{$type}/{$id}/clinic/{$clinicId}/".
+            "from/{$startDate->format('Y-m-d')}/to/{$finishDate->format('Y-m-d')}", 'SlotList');
     }
 }

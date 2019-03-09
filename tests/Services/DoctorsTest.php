@@ -2,9 +2,9 @@
 
 namespace Leyhmann\DocDoc\Tests\Services;
 
-use Leyhmann\DocDoc\Services\Doctors;
 use Leyhmann\DocDoc\Exceptions\MaximumCount;
 use Leyhmann\DocDoc\Helpers\Builders\DoctorsQueryBuilder;
+use Leyhmann\DocDoc\Services\Doctors;
 
 class DoctorsTest extends AbstractCategoryTest
 {
@@ -194,6 +194,29 @@ class DoctorsTest extends AbstractCategoryTest
             $this->assertArrayHasKey('Depth', $service);
             $this->assertArrayHasKey('SectorId', $service);
             $this->assertArrayHasKey('DiagnosticaId', $service);
+        }
+    }
+
+    /**
+     * @throws MaximumCount
+     * @throws \Leyhmann\DocDoc\Exceptions\CityNumberIncorrect
+     * @throws \Leyhmann\DocDoc\Exceptions\InvalidArgument
+     * @throws \Leyhmann\DocDoc\Exceptions\MethodIsNotSet
+     * @throws \Leyhmann\DocDoc\Exceptions\ResponseError
+     * @throws \Leyhmann\DocDoc\Exceptions\Unauthorized
+     */
+    public function testGetSlots(): void
+    {
+        $doctors = new Doctors($this->client);
+        $doctor = $this->getDefaultDoctor();
+        $startDate = new \DateTime();
+        $finishDate = (new \DateTime())->modify('+3 days');
+        $result = $doctors->getSlots($doctor['Id'], $doctor['Clinics'][0], $startDate, $finishDate);
+        $this->assertIsArray($result);
+        foreach ($result as $slot) {
+            $this->assertArrayHasKey('Id', $slot);
+            $this->assertArrayHasKey('StartTime', $slot);
+            $this->assertArrayHasKey('FinishTime', $slot);
         }
     }
 
