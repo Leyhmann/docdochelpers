@@ -31,7 +31,7 @@ class Client implements ClientInterface
     /**
      * @var string
      */
-    protected $apiUrl = 'https://back.docdoc.ru/api/rest/1.0.6/json/';
+    protected $apiUrl = 'https://api.docdoc.ru/public/rest/1.0.6/json/';
 
     /**
      * @var string
