@@ -1,6 +1,6 @@
-# Helper for API DocDoc 1.0.6 
+# DocDoc API Client 1.0.12
 
-[Official API Documentation Version 1.0.6](https://pk.docdoc.ru/docs/partner-api.pdf)
+[Official API Documentation Version 1.0.12](https://dd1012.docs.apiary.io)
 
 ### Install
 
@@ -13,12 +13,11 @@ composer require leyhmann/docdochelpers
 ### Example
 
 ```php
-use Leyhmann\DocDoc\Services\Doctors;
-use Leyhmann\DocDoc\Services\Clinics;
+use Leyhmann\DocDoc\Services\DoctorsService;
 
 $client = new Client(DOCDOC_LOGIN, DOCDOC_PASSWORD);
-$doctorsService = new Doctors($client);
-$doctors = $doctorsService->all(cityId : int, [count int = 500], [start : int = 1]);
+$doctorsService = new DoctorsService($client);
+$doctors = $doctorsService->all($cityId : int, $count: int|null, $start: int|null);
 
 foreach($doctors as $doctor) {
     // do something

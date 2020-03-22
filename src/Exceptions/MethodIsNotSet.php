@@ -2,6 +2,12 @@
 
 namespace Leyhmann\DocDoc\Exceptions;
 
-class MethodIsNotSet extends \Exception
+use Exception;
+
+/**
+ * Class MethodIsNotSet
+ * @package Leyhmann\DocDoc\Exceptions
+ */
+class MethodIsNotSet extends Exception
 {
 }

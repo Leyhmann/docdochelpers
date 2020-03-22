@@ -6,10 +6,10 @@ use Leyhmann\DocDoc\Exceptions\ResponseError;
 use Leyhmann\DocDoc\Interfaces\ClientInterface;
 
 /**
- * Class AbstractCategory
- * @package Leyhmann\DocDoc\Category
+ * Class AbstractService
+ * @package Leyhmann\DocDoc\Services
  */
-abstract class AbstractCategory
+abstract class AbstractService
 {
     /**
      * @var ClientInterface
@@ -23,6 +23,19 @@ abstract class AbstractCategory
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
+    }
+
+    /**
+     * @param string $query
+     * @param string $key
+     * @return array
+     * @throws ResponseError
+     * @throws \Leyhmann\DocDoc\Exceptions\MethodIsNotSet
+     * @throws \Leyhmann\DocDoc\Exceptions\Unauthorized
+     */
+    protected function getOnly(string $query, string $key): array
+    {
+        return $this->get($query, $key)[$key];
     }
 
     /**
@@ -51,19 +64,6 @@ abstract class AbstractCategory
      * @throws \Leyhmann\DocDoc\Exceptions\MethodIsNotSet
      * @throws \Leyhmann\DocDoc\Exceptions\Unauthorized
      */
-    protected function getOnly(string $query, string $key): array
-    {
-        return $this->get($query, $key)[$key];
-    }
-
-    /**
-     * @param string $query
-     * @param string $key
-     * @return array
-     * @throws ResponseError
-     * @throws \Leyhmann\DocDoc\Exceptions\MethodIsNotSet
-     * @throws \Leyhmann\DocDoc\Exceptions\Unauthorized
-     */
     protected function getFirst(string $query, string $key): array
     {
         $response = $this->get($query, $key);
@@ -71,5 +71,16 @@ abstract class AbstractCategory
             return $response[$key][0];
         }
         throw new ResponseError($response['message'] ?? 'Response is error');
+    }
+
+    /**
+     * Transform bool to int
+     *
+     * @param bool $value
+     * @return int
+     */
+    protected function boolToInt(bool $value): int
+    {
+        return $value ? 1 : 0;
     }
 }

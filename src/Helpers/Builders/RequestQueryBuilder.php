@@ -2,6 +2,8 @@
 
 namespace Leyhmann\DocDoc\Helpers\Builders;
 
+use DateTime;
+
 /**
  * Helper for create request
  *
@@ -13,7 +15,7 @@ class RequestQueryBuilder extends QueryBuilder
     /**
      * @var int
      */
-    protected $city = 0;
+    protected $city;
 
     /**
      * @var int
@@ -51,7 +53,7 @@ class RequestQueryBuilder extends QueryBuilder
     protected $departure;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     protected $dateAdmission;
 
@@ -91,6 +93,16 @@ class RequestQueryBuilder extends QueryBuilder
      * @var int
      */
     protected $clientAge;
+
+    /**
+     * @var DateTime
+     */
+    protected $clientBirthday;
+
+    /**
+     * @var string("multy", "adult", "child")
+     */
+    protected $age;
 
     /**
      * @var string
@@ -193,10 +205,10 @@ class RequestQueryBuilder extends QueryBuilder
     }
 
     /**
-     * @param \DateTime $dateAdmission
+     * @param DateTime $dateAdmission
      * @return RequestQueryBuilder
      */
-    public function setDateAdmission(\DateTime $dateAdmission): RequestQueryBuilder
+    public function setDateAdmission(DateTime $dateAdmission): RequestQueryBuilder
     {
         $this->dateAdmission = $dateAdmission;
         return $this;
@@ -309,6 +321,26 @@ class RequestQueryBuilder extends QueryBuilder
     public function setRequestId(int $requestId): RequestQueryBuilder
     {
         $this->requestId = $requestId;
+        return $this;
+    }
+
+    /**
+     * @param DateTime $clientBirthday
+     * @return RequestQueryBuilder
+     */
+    public function setClientBirthday(DateTime $clientBirthday): RequestQueryBuilder
+    {
+        $this->clientBirthday = $clientBirthday;
+        return $this;
+    }
+
+    /**
+     * @param string $age
+     * @return RequestQueryBuilder
+     */
+    public function setAge(string $age): RequestQueryBuilder
+    {
+        $this->age = $age;
         return $this;
     }
 }

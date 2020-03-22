@@ -11,6 +11,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Leyhmann\DocDoc\Exceptions\MethodIsNotSet;
 use Leyhmann\DocDoc\Exceptions\Unauthorized;
 use Psr\Http\Message\ResponseInterface;
+use function json_decode;
 
 /**
  * Class Client
@@ -24,14 +25,9 @@ class Client implements ClientInterface
     protected $browser;
 
     /**
-     * @var int
-     */
-    protected $clientTimeout;
-
-    /**
      * @var string
      */
-    protected $apiUrl = 'https://api.docdoc.ru/public/rest/1.0.6/json/';
+    protected $apiUrl;
 
     /**
      * @var string
@@ -42,13 +38,15 @@ class Client implements ClientInterface
      * Client constructor.
      * @param string $username
      * @param string $password
+     * @param string $apiUrl
      */
-    public function __construct(string $username, string $password)
+    public function __construct(string $username, string $password, string $apiUrl = 'https://api.docdoc.ru/public/rest/1.0.12/json/')
     {
         $client = new FileGetContents();
         $this->browser = new Browser($client, new Psr17Factory());
         $auth = new BasicAuthMiddleware($username, $password);
         $this->browser->addMiddleware($auth);
+        $this->apiUrl = $apiUrl;
     }
 
     /**
@@ -94,7 +92,7 @@ class Client implements ClientInterface
      */
     public function getJson(): array
     {
-        return \json_decode($this->get()->getBody()->getContents(), true);
+        return json_decode($this->get()->getBody()->getContents(), true);
     }
 
     /**

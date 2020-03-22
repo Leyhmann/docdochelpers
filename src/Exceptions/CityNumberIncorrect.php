@@ -2,6 +2,12 @@
 
 namespace Leyhmann\DocDoc\Exceptions;
 
-class CityNumberIncorrect extends \Exception
+use Exception;
+
+/**
+ * Class CityNumberIncorrect
+ * @package Leyhmann\DocDoc\Exceptions
+ */
+class CityNumberIncorrect extends Exception
 {
 }

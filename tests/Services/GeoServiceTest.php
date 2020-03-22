@@ -2,10 +2,9 @@
 
 namespace Leyhmann\DocDoc\Tests\Services;
 
-use Leyhmann\DocDoc\Entities\Station;
-use Leyhmann\DocDoc\Services\Locations;
+use Leyhmann\DocDoc\Services\GeoService;
 
-class LocationsTest extends AbstractCategoryTest
+class GeoServiceTest extends AbstractServiceTest
 {
     /**
      * @var array
@@ -19,7 +18,7 @@ class LocationsTest extends AbstractCategoryTest
      */
     public function testGetCities(): void
     {
-        $locations = new Locations($this->client);
+        $locations = new GeoService($this->client);
         $result = $locations->getCities();
         $this->assertIsArray($result);
         $this->assertTrue(\count($result) > 0);
@@ -43,7 +42,7 @@ class LocationsTest extends AbstractCategoryTest
      */
     public function testGetStreets(): void
     {
-        $locations = new Locations($this->client);
+        $locations = new GeoService($this->client);
         $cities = $this->getCities();
         $result = $locations->getStreets($cities[0]['Id']);
         $this->assertIsArray($result);
@@ -59,30 +58,9 @@ class LocationsTest extends AbstractCategoryTest
      * @throws \Leyhmann\DocDoc\Exceptions\ResponseError
      * @throws \Leyhmann\DocDoc\Exceptions\Unauthorized
      */
-    public function testGetMetro(): void
-    {
-        $locations = new Locations($this->client);
-        $cities = $this->getCities();
-        $result = $locations->getMetro($cities[0]['Id']);
-        $this->assertIsArray($result);
-        $this->assertArrayHasKey(0, $result);
-        $this->assertArrayHasKey('Id', $result[0]);
-        $this->assertArrayHasKey('Alias', $result[0]);
-        $this->assertArrayHasKey('Name', $result[0]);
-        $this->assertArrayHasKey('LineName', $result[0]);
-        $this->assertArrayHasKey('LineColor', $result[0]);
-        $this->assertArrayHasKey('CityId', $result[0]);
-        $this->assertArrayHasKey('DistrictIds', $result[0]);
-    }
-
-    /**
-     * @throws \Leyhmann\DocDoc\Exceptions\MethodIsNotSet
-     * @throws \Leyhmann\DocDoc\Exceptions\ResponseError
-     * @throws \Leyhmann\DocDoc\Exceptions\Unauthorized
-     */
     public function testGetDistricts(): void
     {
-        $locations = new Locations($this->client);
+        $locations = new GeoService($this->client);
         $cities = $this->getCities();
         $result = $locations->getDistricts($cities[0]['Id']);
         $this->assertIsArray($result);
@@ -98,22 +76,9 @@ class LocationsTest extends AbstractCategoryTest
      * @throws \Leyhmann\DocDoc\Exceptions\ResponseError
      * @throws \Leyhmann\DocDoc\Exceptions\Unauthorized
      */
-    public function testNearestStationGeo(): void
-    {
-        $locations = new Locations($this->client);
-        $cities = $this->getCities();
-        $result = $locations->nearestStationGeo($cities[0]['Latitude'], $cities[0]['Longitude']);
-        $this->assertInstanceOf(Station::class, $result);
-    }
-
-    /**
-     * @throws \Leyhmann\DocDoc\Exceptions\MethodIsNotSet
-     * @throws \Leyhmann\DocDoc\Exceptions\ResponseError
-     * @throws \Leyhmann\DocDoc\Exceptions\Unauthorized
-     */
     public function testNearDistricts(): void
     {
-        $locations = new Locations($this->client);
+        $locations = new GeoService($this->client);
         $cities = $this->getCities();
         $district = $locations->getDistricts($cities[0]['Id']);
         $result = $locations->nearDistricts($district[0]['Id']);
@@ -130,27 +95,12 @@ class LocationsTest extends AbstractCategoryTest
      * @throws \Leyhmann\DocDoc\Exceptions\ResponseError
      * @throws \Leyhmann\DocDoc\Exceptions\Unauthorized
      */
-    public function testNearestStation(): void
-    {
-        $locations = new Locations($this->client);
-        $cities = $this->getCities();
-        $stations = $locations->getMetro($cities[0]['Id']);
-        $result = $locations->nearestStation($stations[0]['Id']);
-        $this->assertTrue(\count($result) > 0);
-        $this->assertInstanceOf(Station::class, $result[0]);
-    }
-
-    /**
-     * @throws \Leyhmann\DocDoc\Exceptions\MethodIsNotSet
-     * @throws \Leyhmann\DocDoc\Exceptions\ResponseError
-     * @throws \Leyhmann\DocDoc\Exceptions\Unauthorized
-     */
     public function testDetectCity(): void
     {
-        $locations = new Locations($this->client);
+        $locations = new GeoService($this->client);
         $cities = $this->getCities();
         $result = $locations->detectCity($cities[0]['Latitude'], $cities[0]['Longitude']);
-        $this->assertEquals($result->getId(), (int)$cities[0]['Id']);
+        $this->assertEquals($result['Id'], (int)$cities[0]['Id']);
     }
 
     /**
@@ -160,7 +110,7 @@ class LocationsTest extends AbstractCategoryTest
      */
     public function testGetMoscowArea(): void
     {
-        $locations = new Locations($this->client);
+        $locations = new GeoService($this->client);
         $result = $locations->getMoscowArea();
         $this->assertTrue(\count($result) > 0);
         foreach ($result as $area) {
@@ -180,7 +130,7 @@ class LocationsTest extends AbstractCategoryTest
     protected function getCities(): array
     {
         if ($this->cities === null) {
-            $locations = new Locations($this->client);
+            $locations = new GeoService($this->client);
             $this->cities = $locations->getCities();
         }
         return $this->cities;

@@ -7,6 +7,10 @@ use Leyhmann\DocDoc\Exceptions\Unauthorized;
 use Leyhmann\DocDoc\Helpers\Headers;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Interface ClientInterface
+ * @package Leyhmann\DocDoc\Interfaces
+ */
 interface ClientInterface
 {
     /**

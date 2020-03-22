@@ -2,7 +2,13 @@
 
 namespace Leyhmann\DocDoc\Helpers\Builders;
 
+use DateTime;
 use Leyhmann\DocDoc\Exceptions\RequiredFieldIsNotSet;
+use Leyhmann\DocDoc\Interfaces\Helpers\QueryBuilderInterface;
+use function http_build_query;
+use function implode;
+use function in_array;
+use function is_array;
 
 /**
  * Query helper for long api
@@ -10,7 +16,7 @@ use Leyhmann\DocDoc\Exceptions\RequiredFieldIsNotSet;
  * Class QueryBuilder
  * @package Leyhmann\DocDoc\Helpers
  */
-abstract class QueryBuilder
+abstract class QueryBuilder implements QueryBuilderInterface
 {
     /**
      * List of required fields
@@ -47,7 +53,7 @@ abstract class QueryBuilder
                 $queryString .= "{$key}/{$this->$key}/";
             }
         }
-        return $queryString . '?' . \http_build_query($this->getQuery());
+        return $queryString . '?' . http_build_query($this->getQuery());
     }
 
     /**
@@ -59,12 +65,19 @@ abstract class QueryBuilder
         $query = [];
         foreach ($this as $key => $value) {
             $this->checkRequired($key, $value);
-            if (!empty($value) && !\in_array($key, static::GET_NOT_ALLOWED, true)) {
-                if (\is_array($value)) {
-                    $query[$key] = \implode(',', $value);
+            if (!empty($value) && !in_array($key, static::GET_NOT_ALLOWED, true)) {
+                if (is_array($value)) {
+                    $query[$key] = implode(',', $value);
+                } elseif (is_object($value) && get_class($value) === DateTime::class) {
+                    $query[$key] = $value->format('Y-m-d H:i:s');
                 } else {
-                    if (\in_array($key, static::TRANSFORMED, true)) {
+                    if (in_array($key, static::TRANSFORMED, true)) {
                         $key = static::TRANSFORMED[$key];
+                    }
+                    if ($value === true) {
+                        $value = 1;
+                    } elseif ($value === false) {
+                        $value = 0;
                     }
                     $query[$key] = $value;
                 }
@@ -80,7 +93,7 @@ abstract class QueryBuilder
      */
     protected function checkRequired($key, $value): void
     {
-        if (($value === null || $value === []) && \in_array($key, static::REQUIRED_FIELDS, true)) {
+        if (($value === null || $value === []) && in_array($key, static::REQUIRED_FIELDS, true)) {
             throw new RequiredFieldIsNotSet("The field {$key} is required");
         }
     }

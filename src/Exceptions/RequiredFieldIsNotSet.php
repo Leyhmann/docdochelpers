@@ -2,6 +2,12 @@
 
 namespace Leyhmann\DocDoc\Exceptions;
 
-class RequiredFieldIsNotSet extends \Exception
+use Exception;
+
+/**
+ * Class RequiredFieldIsNotSet
+ * @package Leyhmann\DocDoc\Exceptions
+ */
+class RequiredFieldIsNotSet extends Exception
 {
 }

@@ -2,6 +2,12 @@
 
 namespace Leyhmann\DocDoc\Exceptions;
 
-class MaximumCount extends \Exception
+use Exception;
+
+/**
+ * Class MaximumCount
+ * @package Leyhmann\DocDoc\Exceptions
+ */
+class MaximumCount extends Exception
 {
 }

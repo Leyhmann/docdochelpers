@@ -2,6 +2,8 @@
 
 namespace Leyhmann\DocDoc\Helpers\Builders;
 
+use DateTime;
+
 /**
  * Helper for query doctor
  *
@@ -29,7 +31,7 @@ class DoctorsQueryBuilder extends QueryBuilder
     /**
      * {@inheritDoc}
      */
-    public const TRANSFORMED = ['naDom' => 'na-dom'];
+    public const TRANSFORMED = ['naDom' => 'na_dom'];
 
     /**
      * Required
@@ -127,6 +129,12 @@ class DoctorsQueryBuilder extends QueryBuilder
     protected $slotsDays;
 
     /**
+     * The maximum date for displaying the doctor’s schedule. This parameter applies only if the withSlots parameter is passed with a value of 1. Example: 2018-01-01.
+     * @var DateTime|null
+     */
+    protected $slotMax;
+
+    /**
      * if male = 1, if female = 2
      * @var int(1,2)
      */
@@ -141,6 +149,44 @@ class DoctorsQueryBuilder extends QueryBuilder
      * @var bool
      */
     protected $splitClinic;
+
+    /**
+     * @var int[]|null
+     */
+    protected $clinicId;
+
+    /**
+     * Limit for finishing doctors (default = 10), the parameter is applied only if the /near/ extra parameter is passed in the same request
+     *
+     * @var int
+     */
+    protected $extraLimit;
+
+    /**
+     * @var DateTime
+     */
+    protected $workingTime;
+
+    /**
+     * Deselect only adult doctors. In case if extradition is necessary to get doctors as host children and not. Example 1.
+     *
+     * @var bool
+     */
+    protected $withoutAdultsReception;
+
+    /**
+     * Adult intake filtration. 0 - do not accept adults 1 - accept adults. Example: 1.
+     *
+     * @var bool
+     */
+    protected $adults;
+
+    /**
+     * Clinic identifier, only this clinic will be displayed in the information on the clinics of the doctor. Example: 5343
+     *
+     * @var int
+     */
+    protected $singleClinicId;
 
     /**
      * @var string
@@ -364,6 +410,102 @@ class DoctorsQueryBuilder extends QueryBuilder
     public function setIllness(string $illness): DoctorsQueryBuilder
     {
         $this->illness = $illness;
+        return $this;
+    }
+
+    /**
+     * @param string $near
+     * @return DoctorsQueryBuilder
+     */
+    public function setNear(string $near): DoctorsQueryBuilder
+    {
+        $this->near = $near;
+        return $this;
+    }
+
+    /**
+     * @param DateTime|null $slotMax
+     * @return DoctorsQueryBuilder
+     */
+    public function setSlotMax(?DateTime $slotMax): DoctorsQueryBuilder
+    {
+        $this->slotMax = $slotMax;
+        return $this;
+    }
+
+    /**
+     * @param int[]|null $clinicId
+     * @return DoctorsQueryBuilder
+     */
+    public function setClinicId(?array $clinicId): DoctorsQueryBuilder
+    {
+        $this->clinicId = $clinicId;
+        return $this;
+    }
+
+    /**
+     * @param int $extraLimit
+     * @return DoctorsQueryBuilder
+     */
+    public function setExtraLimit(int $extraLimit): DoctorsQueryBuilder
+    {
+        $this->extraLimit = $extraLimit;
+        return $this;
+    }
+
+    /**
+     * @param DateTime $workingTime
+     * @return DoctorsQueryBuilder
+     */
+    public function setWorkingTime(DateTime $workingTime): DoctorsQueryBuilder
+    {
+        $this->workingTime = $workingTime;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWithoutAdultsReception(): bool
+    {
+        return $this->withoutAdultsReception;
+    }
+
+    /**
+     * @param bool $withoutAdultsReception
+     * @return DoctorsQueryBuilder
+     */
+    public function setWithoutAdultsReception(bool $withoutAdultsReception): DoctorsQueryBuilder
+    {
+        $this->withoutAdultsReception = $withoutAdultsReception;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdults(): bool
+    {
+        return $this->adults;
+    }
+
+    /**
+     * @param bool $adults
+     * @return DoctorsQueryBuilder
+     */
+    public function setAdults(bool $adults): DoctorsQueryBuilder
+    {
+        $this->adults = $adults;
+        return $this;
+    }
+
+    /**
+     * @param int $singleClinicId
+     * @return DoctorsQueryBuilder
+     */
+    public function setSingleClinicId(int $singleClinicId): DoctorsQueryBuilder
+    {
+        $this->singleClinicId = $singleClinicId;
         return $this;
     }
 }

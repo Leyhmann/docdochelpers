@@ -2,6 +2,12 @@
 
 namespace Leyhmann\DocDoc\Helpers\Builders;
 
+use DateTime;
+
+/**
+ * Class ClinicsQueryBuilder
+ * @package Leyhmann\DocDoc\Helpers\Builders
+ */
 class ClinicsQueryBuilder extends QueryBuilder
 {
     /**
@@ -12,6 +18,11 @@ class ClinicsQueryBuilder extends QueryBuilder
         'count',
         'city',
     ];
+
+    /**
+     * {@inheritDoc}
+     */
+    public const TRANSFORMED = ['naDom' => 'na_dom'];
 
     /**
      * Required
@@ -32,9 +43,9 @@ class ClinicsQueryBuilder extends QueryBuilder
     protected $city;
 
     /**
-     * @var array(1,2,3)
+     * @var int
      */
-    protected $clinicType = [];
+    protected $clinicType;
 
     /**
      * Required
@@ -47,6 +58,11 @@ class ClinicsQueryBuilder extends QueryBuilder
      * @var string("strict", "mixed", "extra")
      */
     protected $nearMode;
+
+    /**
+     * @var int(1,2)
+     */
+    protected $gender;
 
     /**
      * @var int
@@ -77,6 +93,41 @@ class ClinicsQueryBuilder extends QueryBuilder
      * @var bool
      */
     protected $workAllTime;
+
+    /**
+     * @var int
+     */
+    protected $clinicId;
+
+    /**
+     * @var DateTime
+     */
+    protected $workingTime;
+
+    /**
+     * @var bool
+     */
+    protected $naDom;
+
+    /**
+     * @var string("doctor", "diagnostic ")
+     */
+    protected $kind;
+
+    /**
+     * @var bool
+     */
+    protected $adults;
+
+    /**
+     * @var bool
+     */
+    protected $deti;
+
+    /**
+     * @var string
+     */
+    protected $search;
 
     /**
      * @param int $start
@@ -195,6 +246,86 @@ class ClinicsQueryBuilder extends QueryBuilder
     public function setWorkAllTime(bool $workAllTime): ClinicsQueryBuilder
     {
         $this->workAllTime = $workAllTime;
+        return $this;
+    }
+
+    /**
+     * @param int $gender
+     * @return ClinicsQueryBuilder
+     */
+    public function setGender(int $gender): ClinicsQueryBuilder
+    {
+        $this->gender = $gender;
+        return $this;
+    }
+
+    /**
+     * @param int $clinicId
+     * @return ClinicsQueryBuilder
+     */
+    public function setClinicId(int $clinicId): ClinicsQueryBuilder
+    {
+        $this->clinicId = $clinicId;
+        return $this;
+    }
+
+    /**
+     * @param DateTime $workingTime
+     * @return ClinicsQueryBuilder
+     */
+    public function setWorkingTime(DateTime $workingTime): ClinicsQueryBuilder
+    {
+        $this->workingTime = $workingTime;
+        return $this;
+    }
+
+    /**
+     * @param bool $naDom
+     * @return ClinicsQueryBuilder
+     */
+    public function setNaDom(bool $naDom): ClinicsQueryBuilder
+    {
+        $this->naDom = $naDom;
+        return $this;
+    }
+
+    /**
+     * @param string $kind
+     * @return ClinicsQueryBuilder
+     */
+    public function setKind(string $kind): ClinicsQueryBuilder
+    {
+        $this->kind = $kind;
+        return $this;
+    }
+
+    /**
+     * @param bool $adults
+     * @return ClinicsQueryBuilder
+     */
+    public function setAdults(bool $adults): ClinicsQueryBuilder
+    {
+        $this->adults = $adults;
+        return $this;
+    }
+
+    /**
+     * @param bool $deti
+     * @return ClinicsQueryBuilder
+     */
+    public function setDeti(bool $deti): ClinicsQueryBuilder
+    {
+        $this->deti = $deti;
+        return $this;
+    }
+
+    /**
+     * @param string $search
+     * @return ClinicsQueryBuilder
+     */
+    public function setSearch(string $search): ClinicsQueryBuilder
+    {
+        $this->search = $search;
         return $this;
     }
 }

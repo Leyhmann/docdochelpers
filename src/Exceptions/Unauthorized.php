@@ -2,6 +2,12 @@
 
 namespace Leyhmann\DocDoc\Exceptions;
 
-class Unauthorized extends \Exception
+use Exception;
+
+/**
+ * Class Unauthorized
+ * @package Leyhmann\DocDoc\Exceptions
+ */
+class Unauthorized extends Exception
 {
 }

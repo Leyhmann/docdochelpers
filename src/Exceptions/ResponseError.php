@@ -2,6 +2,12 @@
 
 namespace Leyhmann\DocDoc\Exceptions;
 
-class ResponseError extends \Exception
+use Exception;
+
+/**
+ * Class ResponseError
+ * @package Leyhmann\DocDoc\Exceptions
+ */
+class ResponseError extends Exception
 {
 }

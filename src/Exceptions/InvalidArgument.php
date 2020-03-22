@@ -2,6 +2,12 @@
 
 namespace Leyhmann\DocDoc\Exceptions;
 
-class InvalidArgument extends \Exception
+use Exception;
+
+/**
+ * Class InvalidArgument
+ * @package Leyhmann\DocDoc\Exceptions
+ */
+class InvalidArgument extends Exception
 {
 }

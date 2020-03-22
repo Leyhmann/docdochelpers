@@ -9,6 +9,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <php>
+        <env name="DOCDOC_API" value="https://private-anon-202ed26b33-dd1012.apiary-mock.com/public/rest/1.0.12/" />
         <env name="DOCDOC_LOGIN" value="example.login"/>
         <env name="DOCDOC_PASSWORD" value="example.password"/>
     </php>
