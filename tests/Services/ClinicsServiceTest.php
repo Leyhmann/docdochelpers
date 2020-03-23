@@ -63,12 +63,12 @@ class ClinicsServiceTest extends AbstractServiceTest
         $result = $clinics->getClinics(
             (new ClinicsQueryBuilder())
                 ->setStart(0)
-                ->setCount(1)
+                ->setCount(100)
                 ->setCity(1)
         );
         $this->assertArrayHasKey('Total', $result);
         $this->assertArrayHasKey('ClinicList', $result);
-        $this->assertEquals(count($result['ClinicList']), 1);
+        $this->assertEquals(count($result['ClinicList']), 100);
         $this->assertArrayHasKey('Id', $result['ClinicList'][0]);
     }
 

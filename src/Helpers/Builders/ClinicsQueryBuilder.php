@@ -51,7 +51,7 @@ class ClinicsQueryBuilder extends QueryBuilder
      * Required
      * @var array
      */
-    protected $stations = [];
+    protected $stations;
 
     /**
      * Required

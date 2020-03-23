@@ -48,12 +48,27 @@ abstract class QueryBuilder implements QueryBuilderInterface
     public function getQueryString(): string
     {
         $queryString = '';
-        foreach (static::GET_NOT_ALLOWED as $key) {
-            if (!empty($this->$key)) {
-                $queryString .= "{$key}/{$this->$key}/";
+        foreach ($this as $key => $value) {
+            $this->checkRequired($key, $value);
+            if ($value !== null && !in_array($key, static::GET_NOT_ALLOWED, true)) {
+                if (is_array($value)) {
+                    $queryString .= "{$key}/" . implode(',', $value);
+                } elseif (is_object($value) && get_class($value) === DateTime::class) {
+                    $queryString .= "{$key}/" . $value->format('Y-m-d H:i:s');
+                } else {
+                    if (in_array($key, static::TRANSFORMED, true)) {
+                        $key = static::TRANSFORMED[$key];
+                    }
+                    if ($value === true) {
+                        $value = 1;
+                    } elseif ($value === false) {
+                        $value = 0;
+                    }
+                    $queryString .= "{$key}/$value/";
+                }
             }
         }
-        return $queryString . '?' . http_build_query($this->getQuery());
+        return "/" . $queryString;
     }
 
     /**
@@ -65,7 +80,7 @@ abstract class QueryBuilder implements QueryBuilderInterface
         $query = [];
         foreach ($this as $key => $value) {
             $this->checkRequired($key, $value);
-            if (!empty($value) && !in_array($key, static::GET_NOT_ALLOWED, true)) {
+            if ($value !== null && !in_array($key, static::GET_NOT_ALLOWED, true)) {
                 if (is_array($value)) {
                     $query[$key] = implode(',', $value);
                 } elseif (is_object($value) && get_class($value) === DateTime::class) {
