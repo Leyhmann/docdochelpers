@@ -19,14 +19,7 @@ class DoctorsQueryBuilder extends QueryBuilder
         'start',
         'count',
         'city',
-        'stations',
-        'near',
     ];
-
-    /**
-     * {@inheritDoc}
-     */
-    public const GET_NOT_ALLOWED = ['order'];
 
     /**
      * {@inheritDoc}

@@ -29,11 +29,6 @@ abstract class QueryBuilder implements QueryBuilderInterface
     public const TRANSFORMED = [];
 
     /**
-     * List of fields that cannot be used as a get parameter
-     */
-    public const GET_NOT_ALLOWED = [];
-
-    /**
      * @return QueryBuilder
      */
     public static function create(): QueryBuilder
@@ -50,7 +45,7 @@ abstract class QueryBuilder implements QueryBuilderInterface
         $queryString = '';
         foreach ($this as $key => $value) {
             $this->checkRequired($key, $value);
-            if ($value !== null && !in_array($key, static::GET_NOT_ALLOWED, true)) {
+            if ($value !== null) {
                 if (is_array($value)) {
                     $queryString .= "{$key}/" . implode(',', $value);
                 } elseif (is_object($value) && get_class($value) === DateTime::class) {
@@ -80,7 +75,7 @@ abstract class QueryBuilder implements QueryBuilderInterface
         $query = [];
         foreach ($this as $key => $value) {
             $this->checkRequired($key, $value);
-            if ($value !== null && !in_array($key, static::GET_NOT_ALLOWED, true)) {
+            if ($value !== null) {
                 if (is_array($value)) {
                     $query[$key] = implode(',', $value);
                 } elseif (is_object($value) && get_class($value) === DateTime::class) {
