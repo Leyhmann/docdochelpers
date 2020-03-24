@@ -63,13 +63,13 @@ class DoctorsQueryBuilder extends QueryBuilder
      * Required
      * @var array
      */
-    protected $stations = [];
+    protected $stations;
 
     /**
      * Required
      * @var string("strict", "mixed", "extra")
      */
-    protected $near = 'strict';
+    protected $near;
 
     /**
      * @var string("price", "experience", "rating", "distance", "name")
