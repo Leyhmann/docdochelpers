@@ -121,7 +121,7 @@ class ClinicsService extends AbstractService implements ClinicsServiceInterface
      */
     public function getSlotsDoctor(int $doctorId, int $clinicId, DateTime $startDate, DateTime $finishDate): array
     {
-        return $this->getOnly("slot/list/doctor/{$doctorId}/clinic/{$clinicId}/from/{$startDate->format('Y-m-d H:i:s')}/to/{$startDate->format('Y-m-d H:i:s')}", 'SlotList');
+        return $this->getOnly("slot/list/doctor/{$doctorId}/clinic/{$clinicId}/from/{$startDate->format('Y-m-d')}/to/{$finishDate->format('Y-m-d')}", 'SlotList');
     }
 
     /**
@@ -132,7 +132,7 @@ class ClinicsService extends AbstractService implements ClinicsServiceInterface
      */
     public function getSlotsDoctorDiagnostic(int $clinicId, int $diagnosticId, DateTime $startDate, DateTime $finishDate): array
     {
-        return $this->getOnly("slot/list/diagnostic/{$diagnosticId}/clinic/{$clinicId}}/from/{$startDate->format('Y-m-d H:i:s')}/to/{$startDate->format('Y-m-d H:i:s')}", 'SlotList');
+        return $this->getOnly("slot/list/diagnostic/{$diagnosticId}/clinic/{$clinicId}}/from/{$startDate->format('Y-m-d')}/to/{$finishDate->format('Y-m-d')}", 'SlotList');
     }
 
     /**
