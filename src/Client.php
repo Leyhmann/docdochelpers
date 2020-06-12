@@ -3,7 +3,7 @@
 namespace Leyhmann\DocDoc;
 
 use Buzz\Browser;
-use Buzz\Client\FileGetContents;
+use Buzz\Client\Curl;
 use Buzz\Middleware\BasicAuthMiddleware;
 use Leyhmann\DocDoc\Helpers\Headers;
 use Leyhmann\DocDoc\Interfaces\ClientInterface;
@@ -42,7 +42,7 @@ class Client implements ClientInterface
      */
     public function __construct(string $username, string $password, string $apiUrl = 'https://api.docdoc.ru/public/rest/1.0.12/json/')
     {
-        $client = new FileGetContents();
+        $client = new Curl(['timeout' => 300000]);
         $this->browser = new Browser($client, new Psr17Factory());
         $auth = new BasicAuthMiddleware($username, $password);
         $this->browser->addMiddleware($auth);
